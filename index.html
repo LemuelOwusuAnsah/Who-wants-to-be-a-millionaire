@@ -1,77 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- SEO / robot instructions: no index, no follow, no cache (preserved) -->
-  <meta name="robots" content="noindex, nofollow">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <!-- Tailwind + Merriweather font -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Merriweather', serif; }
-  </style>
-  <title>Lans Multimedia · general information</title>
-</head>
-<body class="antialiased text-gray-800 bg-white min-h-screen flex items-center justify-center">
+            btn.classList.add('correct');
+          } else if (i === index && !isCorrect) {
+            btn.classList.add('wrong');
+          }
+        });
 
-  <!-- full‑cover banner container -->
-  <div class="w-full max-w-7xl mx-auto bg-white shadow-sm border border-gray-100 overflow-hidden">
-    
-    <!-- main banner area -->
-    <div class="w-full bg-gradient-to-br from-gray-50 via-white to-gray-50/90 px-5 py-16 md:py-24 md:px-12 lg:px-16">
-      
-      <!-- inner content -->
-      <div class="max-w-4xl mx-auto">
-        
-        <!-- "general information" label -->
-        <div class="text-xs tracking-[0.3em] text-gray-400 mb-10 font-light border-t border-b border-gray-200 py-3 inline-block px-1">
-          GENERAL INFORMATION
-        </div>
+        if (isCorrect) {
+          score += 1;
+          scoreDisplay.textContent = score;
+          feedbackMsg.innerHTML = '<i class="fas fa-check-circle" style="color:#35c96b;"></i> Correct! Well done.';
+        } else {
+          feedbackMsg.innerHTML = `<i class="fas fa-times-circle" style="color:#ff6b6b;"></i> Incorrect. The correct answer was ${String.fromCharCode(65 + q.correct)}.`;
+        }
 
-        <!-- main identity -->
-        <h1 class="font-black text-6xl md:text-7xl lg:text-8xl text-gray-900 leading-tight tracking-tight mb-6">
-          Lans Multimedia
-        </h1>
-        
-        <!-- minimalist descriptor -->
-        <div class="text-lg md:text-xl text-gray-400 font-light mt-2 mb-12 max-w-2xl border-l-2 border-gray-300 pl-6">
-          creative · immersive · connected
-        </div>
+        nextBtn.disabled = false;
+      }
 
-        <!-- GENERAL INFO ABOUT LANS MULTIMEDIA COMPANY -->
-        <div class="prose prose-lg text-gray-600 font-light max-w-3xl space-y-6">
-          <p class="leading-relaxed">
-            Lans Multimedia is a company focused on the development of multimedia solutions. 
-            The company operates at the intersection of content production, digital media 
-            engineering, and network-based distribution.
-          </p>
-          <p class="leading-relaxed">
-            Areas of work include media encoding, interactive applications, and infrastructure 
-            for streaming and archiving. The company provides technical consultation and 
-            system design for private and institutional clients.
-          </p>
-          <p class="leading-relaxed">
-            This page is a general information placeholder. Further details about services, 
-            projects, and technical specifications will be published once the main site 
-            development is complete.
-          </p>
-        </div>
+      function goToNext() {
+        if (!answerSelected) return;
 
-        <!-- UNDER CONSTRUCTION NOTICE (no extra lines) -->
-        <div class="mt-16 pt-8 border-t border-gray-200">
-          <div class="inline-block bg-gray-100 px-6 py-3 text-gray-500 text-sm tracking-widest uppercase rounded-none border border-gray-200">
-            ⏣ page under construction ⏣
-          </div>
-          <!-- all private/cache/direct link lines have been removed per request -->
-        </div>
+        const level = levels[currentLevel];
+        const isLastQuestionInLevel = (currentQuestionIndex === level.questions.length - 1);
 
-      </div>
-    </div>
-  </div>
-  <!-- meta tags enforce noindex, nofollow, no-cache in head, but no visible reminders -->
+        if (!isLastQuestionInLevel) {
+          currentQuestionIndex++;
+          loadQuestion();
+        } else {
+          if (currentLevel < levels.length - 1) {
+            currentLevel++;
+            currentQuestionIndex = 0;
+            progressBar.style.width = '0%';
+            updateUIForLevel();
+            loadQuestion();
+            feedbackMsg.innerHTML = `Welcome to ${levels[currentLevel].name}. Keep going!`;
+          } else {
+            showFinalResults();
+          }
+        }
+      }
+
+      function showFinalResults() {
+        nextBtn.disabled = true;
+        optionsContainer.innerHTML = '';
+        const totalQuestions = levels.reduce((acc, lvl) => acc + lvl.questions.length, 0);
+        const message = `🎉 You've completed all levels! Your final score is ${score} out of ${totalQuestions}.`;
+        questionTextEl.textContent = '🏆 Quiz Completed!';
+        feedbackMsg.innerHTML = message;
+        nextBtn.innerHTML = 'Restart <i class="fas fa-rotate-right"></i>';
+        nextBtn.disabled = false;
+        nextBtn.onclick = () => restartQuiz();
+        progressBar.style.width = '100%';
+      }
+
+      function restartQuiz() {
+        currentLevel = 0;
+        currentQuestionIndex = 0;
+        score = 0;
+        answerSelected = false;
+        selectedOptionIndex = -1;
+        correctAnswerIndex = -1;
+
+        scoreDisplay.textContent = '0';
+        updateUIForLevel();
+        nextBtn.innerHTML = 'Next <i class="fas fa-arrow-right"></i>';
+        nextBtn.onclick = goToNext;
+        nextBtn.disabled = true;
+
+        progressBar.style.width = '0%';
+        loadQuestion();
+        feedbackMsg.innerHTML = 'Select an answer to begin';
+      }
+
+      function initQuiz() {
+        currentLevel = 0;
+        currentQuestionIndex = 0;
+        score = 0;
+        scoreDisplay.textContent = '0';
+        updateUIForLevel();
+        nextBtn.innerHTML = 'Next <i class="fas fa-arrow-right"></i>';
+        nextBtn.onclick = goToNext;
+        nextBtn.disabled = true;
+        loadQuestion();
+      }
+
+      nextBtn.onclick = goToNext;
+      initQuiz();
+    })();
+  </script>
 </body>
 </html>
