@@ -7,6 +7,7 @@ const totalQuestions = levels.reduce((total, level) => total + level.questions.l
 const prizes = ['500', '1,000', '2,000', '5,000', '10,000', '25,000', '50,000', '100,000', '250,000', '1,000,000']
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true)
   const [levelIndex, setLevelIndex] = useState(0)
   const [questionIndex, setQuestionIndex] = useState(0)
   const [score, setScore] = useState(0)
@@ -24,7 +25,12 @@ function App() {
   const resultPercent = Math.round((score / totalQuestions) * 100)
 
   useEffect(() => {
-    if (selected !== null || finished) return undefined
+    const splashTimer = window.setTimeout(() => setShowSplash(false), 2400)
+    return () => window.clearTimeout(splashTimer)
+  }, [])
+
+  useEffect(() => {
+    if (showSplash || selected !== null || finished) return undefined
     const timer = window.setInterval(() => {
       setTimeLeft((current) => {
         if (current <= 1) {
@@ -35,7 +41,7 @@ function App() {
       })
     }, 1000)
     return () => window.clearInterval(timer)
-  }, [selected, finished, questionIndex, levelIndex])
+  }, [showSplash, selected, finished, questionIndex, levelIndex])
 
   const feedback = useMemo(() => {
     if (selected === null) return null
@@ -82,6 +88,27 @@ function App() {
 
   function resetGame() {
     setLevelIndex(0); setQuestionIndex(0); setScore(0); setSelected(null); setEliminated([]); setUsedFifty(false); setUsedSkip(false); setTimeLeft(30); setFinished(false)
+  }
+
+  if (showSplash) {
+    return (
+      <main className="splash-screen" aria-label="Lemsy Games loading">
+        <div className="splash-atmosphere" />
+        <div className="splash-content">
+          <div className="splash-orbit" aria-hidden="true">
+            <span className="splash-orbit-ring ring-one" />
+            <span className="splash-orbit-ring ring-two" />
+            <span className="splash-core"><Globe2 size={30} /></span>
+          </div>
+          <p className="splash-kicker">AN ORIGINAL EXPERIENCE</p>
+          <h1 className="splash-title">LEMSY <span>GAMES</span></h1>
+          <p className="splash-subtitle">Curiosity starts here</p>
+          <div className="splash-loader" aria-label="Loading game"><span /></div>
+          <button className="splash-skip" onClick={() => setShowSplash(false)}>Enter game <ArrowRight size={14} /></button>
+        </div>
+        <p className="splash-footer">LEMSY GAMES <span>•</span> PRESENTS</p>
+      </main>
+    )
   }
 
   if (finished) {
