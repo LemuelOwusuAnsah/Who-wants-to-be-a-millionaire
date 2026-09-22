@@ -1,0 +1,47 @@
+export const levels = [
+  {
+    name: 'Rookie',
+    questions: [
+      ['Which ancient wonder was located in Babylon (modern Iraq)?', ['Hanging Gardens', 'Great Pyramid', 'Colossus of Rhodes', 'Lighthouse of Alexandria']],
+      ['The Taj Mahal is located in which country?', ['India', 'Pakistan', 'Bangladesh', 'Nepal']],
+      ['Which New7Wonders site is in Peru?', ['Machu Picchu', 'Christ the Redeemer', 'Chichen Itza', 'Petra']],
+      ['The Great Wall of China was primarily built to protect against invasions from the north. True or false?', ['True', 'False', 'Only during Ming dynasty', 'It was a trade route']],
+      ['The Colosseum is located in which city?', ['Rome', 'Athens', 'Cairo', 'Istanbul']],
+      ['Which wonder is a massive stone statue in Rio de Janeiro?', ['Christ the Redeemer', 'Statue of Liberty', 'Colossus of Rhodes', 'Moai']],
+      ['Petra, the rose-red city, is in which country?', ['Jordan', 'Egypt', 'Israel', 'Lebanon']],
+      ['Which of these is one of the Seven Wonders of the Ancient World?', ['Statue of Zeus at Olympia', 'Eiffel Tower', 'Sydney Opera House', 'Angkor Wat']],
+      ['Chichen Itza is a famous Mayan city in which country?', ['Mexico', 'Guatemala', 'Belize', 'Honduras']],
+      ['The ancient Lighthouse of Alexandria was located in which country?', ['Egypt', 'Greece', 'Turkey', 'Italy']],
+    ],
+  },
+  {
+    name: 'Explorer',
+    questions: [
+      ['Which ancient wonder was a gigantic statue of the Greek sun god Helios?', ['Colossus of Rhodes', 'Statue of Zeus', 'Mausoleum at Halicarnassus', 'Temple of Artemis']],
+      ['The Mausoleum at Halicarnassus was located in present-day which country?', ['Turkey', 'Greece', 'Egypt', 'Italy']],
+      ['Which New7Wonders is an ancient city carved into rock in Jordan?', ['Petra', 'Machu Picchu', 'Chichen Itza', 'Taj Mahal']],
+      ['The Great Pyramid of Giza was built as a tomb for which pharaoh?', ['Khufu', 'Tutankhamun', 'Ramesses II', 'Cleopatra']],
+      ['Which wonder is a massive temple complex in Cambodia?', ['Angkor Wat', 'Borobudur', 'Shwedagon Pagoda', 'Prambanan']],
+      ['The Leaning Tower of Pisa is located in which country?', ['Italy', 'France', 'Spain', 'Greece']],
+      ['Which of these is NOT one of the original Seven Wonders of the Ancient World?', ['Great Wall of China', 'Hanging Gardens', 'Temple of Artemis', 'Lighthouse of Alexandria']],
+      ['The Moai statues are found on which remote island?', ['Easter Island', 'Hawaii', 'Madagascar', 'Socotra']],
+      ['The Hagia Sophia was originally built as a cathedral in which city?', ['Istanbul', 'Athens', 'Rome', 'Cairo']],
+      ['Which New7Wonders is located in Italy?', ['Colosseum', 'Leaning Tower of Pisa', 'Taj Mahal', 'Machu Picchu']],
+    ],
+  },
+  {
+    name: 'Master',
+    questions: [
+      ['Which ancient wonder was destroyed by fire and later rebuilt, but eventually destroyed again?', ['Temple of Artemis', 'Statue of Zeus', 'Hanging Gardens', 'Colossus of Rhodes']],
+      ['The Statue of Zeus at Olympia was made by which sculptor?', ['Phidias', 'Praxiteles', 'Myron', 'Polykleitos']],
+      ['Which wonder is the only one of the original Seven still largely intact?', ['Great Pyramid of Giza', 'Hanging Gardens', 'Temple of Artemis', 'Lighthouse of Alexandria']],
+      ['The ancient city of Petra was the capital of which civilization?', ['Nabataeans', 'Romans', 'Greeks', 'Persians']],
+      ['Which New7Wonders was built in the 20th century?', ['Christ the Redeemer', 'Machu Picchu', 'Chichen Itza', 'Petra']],
+      ['The Colossus of Rhodes stood for only about 54 years before it was destroyed by:', ['Earthquake', 'Fire', 'Invasion', 'Flood']],
+      ['Which of these is a famous rock-cut temple in India?', ['Ajanta Caves', 'Angkor Wat', 'Borobudur', 'Potala Palace']],
+      ['The Great Wall of China is approximately how long?', ['21,196 km', '5,000 km', '10,000 km', '50,000 km']],
+      ['Which wonder is a massive Buddhist temple in Indonesia?', ['Borobudur', 'Angkor Wat', 'Shwedagon', 'That Luang']],
+      ['The Mausoleum at Halicarnassus was built for which ruler?', ['Mausolus', 'Artemisia', 'Xerxes', 'Darius']],
+    ],
+  },
+].map((level) => ({ ...level, questions: level.questions.map(([question, options]) => ({ question, options, correct: 0 })) }))
